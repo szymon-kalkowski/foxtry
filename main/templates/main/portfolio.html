@@ -1,0 +1,20 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% block content %}
+<div class="container-fluid mt-3 mb-5">
+    <div class="row">
+        {% for view in views %}
+        <div class="col-12 col-md-4 col-lg-3 p-5">
+            <a class="d-block w-100 position-relative" href="{% url 'main:portfolio' %}{{view.id}}"><img class="w-100" src="{{view.miniaturka.url}}"><div class="hov"><p class="m-0">ZOBACZ</p><b class="m-0">WIĘCEJ</b></div></a>
+            <h3 class="text-white mt-3">{{view.nazwa}}</h3>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+    var element = document.getElementById("portfolio");
+    element.classList.add("active");
+</script>
+{% endblock %}

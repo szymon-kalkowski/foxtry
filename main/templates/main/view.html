@@ -1,0 +1,134 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/lightbox.min.css' %}">
+<script type="text/javascript">
+    // if (window.innerWidth >= 991) {
+        window.onload = load;
+        function load()
+        {
+            {% for row in rows %}
+            if (document.getElementById('i1{{row.id}}').clientHeight <= document.getElementById('i2{{row.id}}').clientHeight){
+                document.getElementById('i2{{row.id}}').classList.remove("w-100");
+            } else {
+                document.getElementById('i1{{row.id}}').classList.remove("w-100");
+            }
+            {% endfor %}
+        }
+    // }
+</script>
+{% endblock head %}
+
+
+{% block content %}
+<div class="container-fluid mb-5">
+    <div class="row">
+        {% if view.logo %}
+        <img src="{{view.logo.url}}" style="width: 200px" class="d-block mx-auto mb-3 mt-5">
+        {% endif %}
+        <h1 class="text-white text-center mt-3 mb-5">{{view.nazwa}}</h1>
+        {% if view.grafika and view.grafika_mobilna %}
+        <div class="col-10 offset-1">
+            <a href="{{view.grafika.url}}" data-lightbox="portfolio"><img src="{{view.grafika.url}}" class="w-100 d-block mx-auto my-3 desktop"></a>
+            <img src="{{view.grafika_mobilna.url}}" class="w-100 d-block mx-auto my-3 mobile">
+        </div>
+        {% endif %}
+        <div class="col-10 offset-1">
+            <h5 class="text-white text-justify mx-auto my-4">{{view.opis|linebreaks}}</h5>
+            {% if view.link != '' %}
+            <a class="red d-block mx-auto my-3 text-center h5" href="{{view.link}}" target="_blank">Przejdź na stronę!</a>
+            {% endif %}
+            <hr>
+        </div>
+
+        {% for row in rows %}
+        {% if row.portfolioRowType.nazwa == 'full_width' %}
+            {% if row.photo1 %}
+            <div class="col-10 offset-1">
+                <a href="{{row.photo1.url}}" data-lightbox="portfolio"><img src="{{row.photo1.url}}" class="w-100 d-block mx-auto my-3 desktop"></a>
+            </div>
+            {% endif %}
+        {% elif row.portfolioRowType.nazwa == '1_1' %}
+            {% if row.photo1 and row.photo2 %}
+            <div class="col-10 offset-1">
+                <div class="row">
+                    <div class="col-6">
+                        <a href="{{row.photo1.url}}" data-lightbox="portfolio"><img id="i1{{row.id}}" src="{{row.photo1.url}}" class="w-100 d-block mx-auto my-3 desktop"></a>
+                    </div>
+                    <div class="col-6">
+                        <a href="{{row.photo2.url}}" data-lightbox="portfolio"><img id="i2{{row.id}}" src="{{row.photo2.url}}" class="w-100 d-block mx-auto my-3 desktop"></a>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        {% elif row.portfolioRowType.nazwa == '1_2' %}
+            {% if row.photo1 and row.photo2 %}
+            <div class="col-10 offset-1">
+                <div class="row">
+                    <div class="col-4">
+                        <a href="{{row.photo1.url}}" data-lightbox="portfolio"><img id="i1{{row.id}}" src="{{row.photo1.url}}" class="w-100 d-block ml-0 my-3 desktop"></a>
+                    </div>
+                    <div class="col-8 d-flex justify-content-end">
+                        <a href="{{row.photo2.url}}" data-lightbox="portfolio"><img id="i2{{row.id}}" src="{{row.photo2.url}}" class="w-100 d-block my-3 desktop"></a>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        {% elif row.portfolioRowType.nazwa == '2_1' %}
+            {% if row.photo1 and row.photo2 %}
+            <div class="col-10 offset-1">
+                <div class="row">
+                    <div class="col-8">
+                        <a href="{{row.photo1.url}}" data-lightbox="portfolio"><img id="i1{{row.id}}" src="{{row.photo1.url}}" class="w-100 d-block ml-0 my-3 desktop"></a>
+                    </div>
+                    <div class="col-4">
+                        <a href="{{row.photo2.url}}" data-lightbox="portfolio"><img id="i2{{row.id}}" src="{{row.photo2.url}}" class="w-100 d-block my-3 desktop"></a>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        {% elif row.portfolioRowType.nazwa == 'mobile' %}
+            {% if row.photo1 %}
+            <div class="col-12 col-lg-10 offset-lg-1">
+                <img src="{{row.photo1.url}}" class="w-100 d-block mx-auto my-3 mobile">
+            </div>
+            {% endif %}
+        {% endif %}
+        {% endfor %}
+
+        {% for video in videos %}
+        <div class="video">
+            <iframe src="{{video.link}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+    var element = document.getElementById("portfolio");
+    element.classList.add("active");
+</script>
+<script type="text/javascript">
+    if (window.innerWidth >= 991) {
+    setInterval(() => {
+        {% for row in rows %}
+        {% if row.portfolioRowType.nazwa != 'full_width' and  row.portfolioRowType.nazwa != 'mobile' %}
+        var left=document.getElementById('i1{{row.id}}');
+        var right=document.getElementById('i2{{row.id}}');
+        if(left.clientHeight!==right.clientHeight)
+        {
+            if (left.classList.contains('w-100')){
+                right.style.height=`${left.clientHeight}px`;
+            } else {
+                left.style.height=`${right.clientHeight}px`;
+            }
+        }
+        {% endif %}
+        {% endfor %}
+    }, 200)
+    }
+</script>
+<script src="{% static 'js/lightbox-plus-jquery.min.js' %}"></script>
+{% endblock %}

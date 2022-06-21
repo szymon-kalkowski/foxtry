@@ -1,0 +1,60 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% block content %}
+<div class="container mb-5">
+    <div class="row">
+        <a href="{% url 'main:services' %}" class="btn mt-3">&#x2190; Powrót do usług</a>
+        <div class="row cart-header">
+            <div class="col-6 col-lg-4">
+                <h4 class="red">Usługi: {{order.get_cart_items}}</h4>
+            </div>
+            <div class="col-6 col-lg-4">
+                <h4 class="red">Suma: {{order.get_cart_total|floatformat:2}}PLN</h4>
+            </div>
+            <div class="col-12 col-lg-4">
+                <a href="{% url 'main:checkout' %}" class="btn mx-auto d-block my-3">Podsumowanie</a>
+            </div>
+        </div>
+        <div class="row mt-5">
+            <div class="col-2">
+
+            </div>
+            <div class="col-5">
+                <h4 class="red">Usługa</h4>
+            </div>
+            <div class="col-3">
+                <h4 class="red">Cena</h4>
+            </div>
+            <div class="col-2">
+                <h4 class="red">Ilość</h4>
+            </div>
+        </div>
+        {% for item in items %}
+        <div class="row cart-row">
+            <div class="col-2">
+                <img class="w-100" src="{{item.service.zdjecie}}">
+            </div>
+            <div class="col-5">
+                <h4 class="red">{{item.service.nazwa}}</h4>
+            </div>
+            <div class="col-3">
+                <h4 class="red">{{item.service.cena_wyswietlana}}</h4>
+            </div>
+            <div class="col-2">
+                <h4 class="red">{{item.ilosc}}x</h4>
+                <div class="pm">
+                    <div data-product="{{item.service.id}}" data-action="add" class="update-cart red">+</div>
+                    <div data-product="{{item.service.id}}" data-action="remove" class="update-cart red">-</div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+    var element = document.getElementById("uslugi");
+    element.classList.add("active");
+</script>
+{% endblock %}

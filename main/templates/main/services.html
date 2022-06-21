@@ -1,0 +1,32 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% block content %}
+<div class="container mb-5">
+    <div class="row">
+        {% for service in services %}
+        <div class="col-12 col-lg-4 p-5">
+            <div class="item">
+                <img src="{{service.zdjecie.url}}" class="w-75 mx-auto d-block">
+                <h1 class="text-center red font-weight-bold">{{service.nazwa}}</h1>
+                <h5 class="text-white text-center p-3">{{service.opis}}</h5>
+                <h2 class="text-center red font-weight-bold">{{service.cena_wyswietlana}}</h2>
+                <button data-product="{{service.id}}" data-action="add" class="orderbtn update-cart">ZAMÓW</button>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="cart">
+	<a href="{% url 'main:cart' %}">
+		<img id="cart-icon" src="{% static 'img/cart.svg' %}">
+	</a>
+	<p id="cart-total">{{cartItems}}</p>
+</div>
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+    var element = document.getElementById("uslugi");
+    element.classList.add("active");
+</script>
+{% endblock %}

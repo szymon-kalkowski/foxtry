@@ -1,0 +1,15 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% block content %}
+<div class="container mb-5">
+    <div class="row">
+        <img src="{% static 'img/truck.svg' %}" class="mx-auto mt-5" style="width: 200px">
+        <h1 class="red text-center my-3">Dziękujemy za złożenie zamówienia!</h1>
+        <h3 class="text-white text-center my-3">Twoje zamówienie dotarło już do naszych pracowników i zostanie zrealizowane najszybciej jak to możliwe. Wiadomość zwrotną dostaniesz na maila podanego w formularzu. Dziękujemy za wybranie Foxtry!</h3>
+        <a class="btn mx-auto my-3" href="{% url 'main:home' %}">Powrót na stronę główną</a>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+
+{% endblock %}

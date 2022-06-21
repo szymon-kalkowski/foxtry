@@ -1,0 +1,30 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% block head %}
+<link href="https://fonts.googleapis.com/css2?family=Indie+Flower&family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@1,600&family=Rajdhani:wght@500&family=Raleway:wght@100&family=Tapestry&display=swap%27" rel="stylesheet">
+{% endblock %}
+{% block content %}
+<div class="container mb-5">
+    <div class="row">
+        <div class="col-12 p-3">
+            <h1 class="fx red">FOXTRY</h1>
+            <h3 class="text-white">Foxtry jest grupą założoną w 2018 roku. Od tego czasu staramy się dostarczać naszym klientom najwyższej jakości grafiki i dostosowywać ceny do ich budżetów i potrzeb. Uważamy, że kontakt z klientem jest najważniejszą rzeczą podczas naszej pracy, dzięki czemu dostajesz gwarancje zadowolenia i jakości.</h3>
+        </div>
+        {% for worker in workers %}
+        <div class="col-12 col-lg-4">
+            <img class="w-75 d-block mx-auto m-1" src="{{worker.zdjecie.url}}">
+            <h1 class="text-center red name">{{worker.imie_i_nazwisko}}</h1>
+            <h4 class="text-white text-center">{{worker.specjalizacja}}</h4>
+            <h5 class="text-center"><a class="text-white text-decoration-none" href="mailto:{{worker.email}}">{{worker.email}}</a></h5>
+            <h5 class="text-center"><a class="text-white" target="_blank" href="{{worker.linkedin}}">LinkedIn</a></h5>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+    var element = document.getElementById("onas");
+    element.classList.add("active");
+</script>
+{% endblock %}

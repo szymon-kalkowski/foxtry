@@ -1,0 +1,48 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% block head %}
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+{% endblock %}
+{% block content %}
+<div class="container mb-5">
+    <div class="row">
+        <div class="col-12">
+            <div class="mx-auto d-flex flex-column align-items-center">
+                <h4 class="sent-notification"></h4>
+                <h1 class="red">KONTAKT</h1>
+                <h2 class="skontaktuj">SKONTAKTUJ SIĘ Z NAMI!</h2>
+                <form class="d-flex flex-column align-items-start" id="myForm" action="" method="POST">
+                    {% csrf_token %}
+                    <label class="mt-4">Imię</label>
+                    <input id="fullname" type="text" placeholder="" name="fullname" required>
+                    <label class="mt-4">Email</label>
+                    <input id="email" type="text" placeholder="" name="email" required>
+                    <label class="mt-4">Temat</label>
+                    <input id="subject" type="text" placeholder="" name="subject" required>
+                    <label class="mt-4">Treść</label>
+                    <textarea id="body" rows="5" placeholder="" name="message"></textarea>
+                    <div class="g-recaptcha mt-4" data-theme="dark" data-sitekey="6Lc6a5wfAAAAADU9UqEISL4H2iWY48h6Tr0n6V9K"></div>
+                    <button id="button" class="mt-4 align-self-center align-self-lg-end" type="submit" data-action='submit' onclick="funkcja()" value="Send An Email">WYŚLIJ</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+    var element = document.getElementById("kontakt");
+    element.classList.add("active");
+</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript">
+    function funkcja(){
+        if (email.value != '' && subject.value != '' && fullname.value != ''){
+            setTimeout(function(){
+                $('.sent-notification').text("Wiadomość wysłana pomyślnie!");
+            },1000);
+		}
+	}
+</script>
+{% endblock %}

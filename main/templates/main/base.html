@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="pl" prefix="og: https://ogp.me/ns#">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description" content="Jako grupa Foxtry tworzymy wysokiej jakości grafiki, filmy i strony internetowe. Stale aktualizujemy nasze portfolio, a najważniejszy jest dla nas dobry kontakt z klientem.">
+    <meta name="keywords" content="foxtry, strony internetowe, grafiki, montaż">
+    <meta property="og:image" content="https://i.imgur.com/ffC8zdC.png">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'favicon/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon/favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static 'favicon/site.webmanifest' %}">
+    <link rel="mask-icon" href="{% static 'favicon/safari-pinned-tab.svg' %}" color="#1f1f1f">
+    <meta name="msapplication-TileColor" content="#1f1f1f">
+    <meta name="theme-color" content="#1f1f1f">
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{secret_ga}}"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', '{{secret_ga}}');
+    </script>
+
+    <script type="text/javascript">
+      function getToken(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = cookies[i].trim();
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        var csrftoken = getToken('csrftoken')
+    
+      function getCookie(name) {
+            // Split cookie string and get all individual name=value pairs in an array
+            var cookieArr = document.cookie.split(";");
+    
+            // Loop through the array elements
+            for(var i = 0; i < cookieArr.length; i++) {
+                var cookiePair = cookieArr[i].split("=");
+    
+                /* Removing whitespace at the beginning of the cookie name
+                and compare it with the given string */
+                if(name == cookiePair[0].trim()) {
+                    // Decode the cookie value and return
+                    return decodeURIComponent(cookiePair[1]);
+                }
+            }
+    
+            // Return null if not found
+            return null;
+        }
+        var cart = JSON.parse(getCookie('cart'))
+    
+        if (cart == undefined){
+          cart = {}
+          console.log('Cart Created!', cart)
+          document.cookie ='cart=' + JSON.stringify(cart) + ";domain=;path=/"
+        }
+        console.log('Cart:', cart)
+    </script>
+    
+    {% block head %}{% endblock head %}
+
+    <title>Foxtry</title>
+</head>
+<body class="d-flex flex-column min-vh-100">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mt-2" aria-label="Fourth navbar example">
+        <div class="container-fluid">
+          <a class="navbar-brand d-block d-lg-none" href="{% url 'main:home' %}"><img class="p-3 logo" src="{% static 'img/logo.svg' %}"></a>
+          <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample04" aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">
+            
+            <span class="toggler-icon top-bar"></span>
+            <span class="toggler-icon middle-bar"></span>
+            <span class="toggler-icon bottom-bar"></span>
+          </button>
+    
+          <div class="collapse navbar-collapse" id="navbarsExample04">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 mx-auto w-100 d-flex justify-content-around">
+              <li class="nav-item my-auto mx-3">
+                <a class="nav-link" id="kontakt" aria-current="page" href="{% url 'main:contact' %}">KONTAKT</a>
+              </li>
+              <li class="nav-item my-auto mx-3">
+                <a class="nav-link" id="uslugi" href="{% url 'main:services' %}">USŁUGI</a>
+              </li>
+              <li class="nav-item my-auto">
+                <a class="nav-link d-none d-lg-flex justify-content-center" href="{% url 'main:home' %}" id="logo"><img class="p-1 logo" src="{% static 'img/logo.svg' %}"></a>
+              </li>
+              <li class="nav-item my-auto mx-3">
+                <a class="nav-link" id="portfolio" href="{% url 'main:portfolio' %}">PORTFOLIO</a>
+              </li>
+              <li class="nav-item my-auto mx-3">
+                <a class="nav-link" id="onas" href="{% url 'main:about' %}">O NAS</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    {% block content %}{% endblock content %}
+    <footer id="f" class="mt-auto">
+      <div class="socials">
+        <div><a href="https://www.instagram.com/foxtrygraphics/" target="_blank" class="w-100"><img src="{% static 'img/ig.svg' %}"></a></div>
+        <div><a href="https://www.facebook.com/FOKSPRODUCTION" target="_blank" class="w-100"><img src="{% static 'img/fb.svg' %}"></a></div>
+        <div><a href="https://www.youtube.com/channel/UC-ZCEz2zFDyiEnYb37aomVQ" target="_blank" class="w-100"><img src="{% static 'img/yt.svg'%}"></a></div>
+        <div><a href="https://discord.gg/w245Py8hFA" target="_blank" class="w-100"><img src="{% static 'img/dc.svg' %}"></a></div>
+      </div>
+      <p class="p1">Foxtry.pl</p>
+      <p class="p2">@2021. All rights reserved.</p>
+      <div class="divf">
+        <a href="{% url 'main:contact' %}" class="text-right">Kontakt</a><a href="{% url 'main:terms' %}">Regulamin</a><a href="{% url 'main:faq' %}" class="text-center">FAQ</a>
+      </div>
+    </footer>
+    <div class="cookie-container">
+      <p>
+        Używamy plików cookies w celu zapewnienia jak najlepszych doświadczeń podczas przeglądania naszej strony. Aby dowiedzieć się więcej przeczytaj
+        <a href="{% static 'pdf/politykaprywatnosci_foxtry.pdf' %}" target="_blank">politykę prywatności</a> i <a href="{% static 'pdf/politykacookies_foxtry.pdf' %}" target="_blank">politykę cookies</a>.
+      </p>
+      <div>
+        <button class="cookie-btn btn my-3">Akceptuję</button>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="{% static 'js/cart.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/cookie.js' %}"></script>
+    {% block scripts %}{% endblock scripts %}
+</body>
+</html>

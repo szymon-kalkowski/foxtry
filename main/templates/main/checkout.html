@@ -1,0 +1,105 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% block head %}
+{% endblock %}
+{% block content %}
+<div class="container mb-5">
+    <div class="row">
+        <div class="col-12 col-lg-6 d-flex justify-content-center">
+            <form class="d-flex flex-column align-items-start mt-2 w-75" id="form">
+                {% csrf_token %}
+                <label class="mt-4">Imię i nazwisko*</label>
+                <input id="fullname" type="text" placeholder="" name="fullname" required>
+                <label class="mt-4">Email*</label>
+                <input id="email" type="text" placeholder="" name="email" required>
+                <label class="mt-4">Numer telefonu</label>
+                <input id="nr" type="text" placeholder="" name="nr">
+                <label class="mt-4">Nazwa firmy</label>
+                <input id="com" type="text" placeholder="" name="com">
+                <label class="mt-4">Opis</label>
+                <textarea id="message" rows="5" placeholder="" name="message"></textarea>
+                <button id="button" class="mt-4 align-self-center" type="submit" onclick="submitFormData()" value="Send">WYŚLIJ</button>
+            </form>
+        </div>
+        <div class="col-12 col-lg-6 d-flex flex-column f1">
+            <a href="{% url 'main:cart' %}" class="btn my-5 w-75">&#x2190; Powrót do koszyka</a>
+            <div class="cart-header">
+                <h2 class="red text-center mb-5">PODSUMOWANIE</h2>
+                {% for item in items %}
+                <div class="row my-3">
+                    <div class="col-2">
+                        <img class="w-100" src="{{item.service.zdjecie}}">
+                    </div>
+                    <div class="col-5">
+                        <h5 class="red ">{{item.service.nazwa}}</h3>
+                    </div>
+                    <div class="col-3">
+                        <h5 class="red">{{item.service.cena_wyswietlana}}PLN</h3>
+                    </div>
+                    <div class="col-2">
+                        <h5 class="red">{{item.ilosc}}x</h3>
+                    </div>
+                </div>
+                {% endfor %}
+                <h2 class="red mt-5">Produkty: {{order.get_cart_items}}</h2>
+                <h2 class="red">Suma: {{order.get_cart_total|floatformat:2}}PLN</h2>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+    var element = document.getElementById("uslugi");
+    element.classList.add("active");
+</script>
+<script type="text/javascript">
+    var total = '{{order.get_cart_total}}';
+	var form = document.getElementById('form');
+
+	form.addEventListener('submit', function(e){
+		e.preventDefault();
+		console.log('Form submitted...');
+	});
+
+	function submitFormData(){
+		if (email.value != '' && fullname.value != ''){
+			var produkty="";
+            {% for item in items %}
+            produkty+=`{{item.service.nazwa}} {{item.service.cena_wyswietlana}} {{item.service.ilosc}}\n`;
+            {% endfor %}
+
+			var userFormData = {
+				'fullname':form.fullname.value,
+				'email':form.email.value,
+                'nr':form.nr.value,
+                'com':form.com.value,
+                'message':form.message.value,
+                'produkty':produkty,
+				'total':total,
+			};
+
+            console.log(userFormData)
+
+			var url = '/process_order/';
+			fetch(url,{
+				method:'POST',
+				headers:{
+					'Content-Type':'application/json',
+					'X-CSRFToken':csrftoken,
+				},
+				body:JSON.stringify({'form':userFormData})
+			})
+			.then((response) => response.json())
+			.then((data) => {
+				console.log('success:', data);
+
+				cart = {}
+				document.cookie = 'cart=' + JSON.stringify(cart) + ";domain=;path=/"
+
+				window.location.href = "{% url 'main:thx' %}"
+			})
+		}
+	}
+</script>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% block head %}
+<link href="https://fonts.googleapis.com/css2?family=Indie+Flower&family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@1,600&family=Rajdhani:wght@500&family=Raleway:wght@100&family=Tapestry&display=swap%27" rel="stylesheet">
+{% endblock %}
+{% block content %}
+<div class="animation">
+    <div class="karton">
+        <span class="fx-anim">
+        <h1 class="change-text">Foxtry.pl</h1>
+        </span>
+    </div>
+    
+    <p class="subtitle">Find your way.</p>
+</div>
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+    var element = document.getElementById("f");
+    element.classList.add("dnone");
+</script>
+{% endblock %}
